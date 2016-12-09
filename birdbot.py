@@ -61,7 +61,7 @@ for tweet in soup.find_all(class_='tweet-text'):
     text = text.split(prompt)[-1]
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
-    if not '"' in text and len(fact + text) < 140:
+    if not re.match(r'["@].', text) and len(fact + text) < 140:
         fact += text
         break
 
