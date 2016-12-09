@@ -33,17 +33,17 @@ urlretrieve(image_url, outpath)
 
 # search twitter for the fact
 prompts = [
-    'she acts like',
-    'she finds',
-    'she is just',
-    'she is only',
-    'she loves to',
-    'she lives in',
-    'she should really',
-    'she takes',
-    'she travels',
-    'she tries to',
-    'she tends to',
+    'she acts like ',
+    'she finds ',
+    'she is just ',
+    'she is only ',
+    'she loves to ',
+    'she lives in ',
+    'she should really ',
+    'she takes ',
+    'she travels ',
+    'she tries to ',
+    'she tends to ',
 ]
 # https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
 prompt = random.choice(prompts)
@@ -64,7 +64,6 @@ for tweet in soup.find_all(class_='tweet-text'):
     if not '"' in text and len(fact + text) < 140:
         fact += text
         break
-
 
 # post that bird!
 auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_SECRET)
