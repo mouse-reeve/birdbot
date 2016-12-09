@@ -5,6 +5,8 @@ import os
 import random
 import re
 import requests
+import settings
+import tweepy
 from urllib import urlretrieve
 
 # pick a bird form the list
@@ -31,16 +33,17 @@ urlretrieve(image_url, outpath)
 
 # search twitter for the fact
 prompts = [
-    'she is only',
     'she acts like',
-    'she should really',
-    'she tries to',
     'she finds',
-    'she travels',
     'she is just',
-    'she tends to',
+    'she is only',
     'she loves to',
+    'she lives in',
+    'she should really',
     'she takes',
+    'she travels',
+    'she tries to',
+    'she tends to',
 ]
 # https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
 prompt = random.choice(prompts)
@@ -63,6 +66,10 @@ for tweet in soup.find_all(class_='tweet-text'):
         break
 
 
-print fact
+# post that bird!
+auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_SECRET)
+auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
+api = tweepy.API(auth)
 
-
+api.verify_credentials()
+api.update_status(status=fact, filename=outpath)
