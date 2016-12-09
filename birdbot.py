@@ -1,4 +1,5 @@
 ''' let's learn about birds '''
+import blacklist
 from bs4 import BeautifulSoup
 import json
 import os
@@ -61,6 +62,8 @@ for tweet in soup.find_all(class_='tweet-text'):
     text = text.lower().split(prompt)[-1]
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
+    if blacklist.check_blacklist(text):
+        continue
     if not re.match(r'["@].', text) and len(fact + text) < 140:
         fact += text
         break
