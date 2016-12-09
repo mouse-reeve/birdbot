@@ -2,7 +2,7 @@
 from bs4 import BeautifulSoup
 import json
 import os
-import PIL
+from PIL import Image, ImageFont, ImageDraw
 import random
 import re
 import requests
@@ -35,8 +35,14 @@ urlretrieve(image_url, outpath)
 # cut sentence at first verb
 
 # make a bird fact
-print 'The %s (%s) ...' % (bird, scientific)
+fact = 'The %s (%s) is ... actually I\'m not sure yet' % (bird, scientific)
 
 # attach birdfact to image
+img = Image.open(outpath)
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype('/Library/Fonts/Arial Bold.ttf', 16)
+italic = ImageFont.truetype('/Library/Fonts/Arial Bold Italic.ttf', 16)
+draw.text((5, 5), fact, (255, 255, 255), font=font)
+img.save('%s/images/fact-%s' % (os.getcwd(), filename))
 
 # tweet it out
