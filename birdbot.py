@@ -2,7 +2,6 @@
 from bs4 import BeautifulSoup
 import json
 import os
-from PIL import Image, ImageFont, ImageDraw
 import random
 import re
 import requests
@@ -30,19 +29,40 @@ filename = re.sub(' ', '-', bird.lower()) + '.jpg'
 outpath = os.getcwd() + '/images/%s' % filename
 urlretrieve(image_url, outpath)
 
-# pick a mythological creature
-# extract first sentence
-# cut sentence at first verb
+# search twitter for the fact
+prompts = [
+    'she is only',
+    'she acts like',
+    'she should really',
+    'she tries to',
+    'she finds',
+    'she travels',
+    'she is just',
+    'she tends to',
+    'she loves to',
+    'she takes',
+]
+# https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
+prompt = random.choice(prompts)
+twitter_url = 'https://twitter.com/search?f=tweets&vertical=default&q="'
+twitter_url += prompt
+twitter_url += '"&src=typd'
+tweets = requests.get(twitter_url)
+soup = BeautifulSoup(tweets.text)
 
-# make a bird fact
-fact = 'The %s (%s) is ... actually I\'m not sure yet' % (bird, scientific)
+fact = 'The %s (%s) %s' % (bird, scientific, re.sub('she ', '', prompt))
 
-# attach birdfact to image
-img = Image.open(outpath)
-draw = ImageDraw.Draw(img)
-font = ImageFont.truetype('/Library/Fonts/Arial Bold.ttf', 16)
-italic = ImageFont.truetype('/Library/Fonts/Arial Bold Italic.ttf', 16)
-draw.text((5, 5), fact, (255, 255, 255), font=font)
-img.save('%s/images/fact-%s' % (os.getcwd(), filename))
+# look through tweets
+for tweet in soup.find_all(class_='tweet-text'):
+    text = tweet.text
+    text = text.split(prompt)[-1]
+    # end at end of sentence
+    text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
+    if not '"' in text and len(fact + text) < 140:
+        fact += text
+        break
 
-# tweet it out
+
+print fact
+
+
