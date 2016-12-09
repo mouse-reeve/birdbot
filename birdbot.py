@@ -58,7 +58,7 @@ fact = 'The %s (%s) %s' % (bird, scientific, re.sub('she ', '', prompt))
 # look through tweets
 for tweet in soup.find_all(class_='tweet-text'):
     text = tweet.text
-    text = text.split(prompt)[-1]
+    text = text.lower().split(prompt)[-1]
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
     if not re.match(r'["@].', text) and len(fact + text) < 140:
