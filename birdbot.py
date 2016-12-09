@@ -6,7 +6,7 @@ import random
 import re
 import requests
 import settings
-import tweepy
+from TwitterAPI import TwitterAPI
 from urllib import urlretrieve
 
 # pick a bird form the list
@@ -66,9 +66,9 @@ for tweet in soup.find_all(class_='tweet-text'):
         break
 
 # post that bird!
-auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_SECRET)
-auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
-api = tweepy.API(auth)
-
-api.verify_credentials()
-api.update_status(status=fact, filename=outpath)
+api = TwitterAPI(settings.API_KEY, settings.API_SECRET,
+                 settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
+image_file = open(outpath, 'rb')
+data = image_file.read()
+r = api.request('statuses/update_with_media',
+                {'status': fact}, {'media[]': data})
