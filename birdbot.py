@@ -35,6 +35,7 @@ urlretrieve(image_url, outpath)
 # search twitter for the fact
 prompts = [
     'she acts like ',
+    'she has ',
     'she finds ',
     'she is just ',
     'she is only ',
@@ -45,6 +46,7 @@ prompts = [
     'she travels ',
     'she tries to ',
     'she tends to ',
+    'she will ',
 ]
 # https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
 prompt = random.choice(prompts)
