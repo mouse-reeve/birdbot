@@ -35,17 +35,23 @@ urlretrieve(image_url, outpath)
 # search twitter for the fact
 prompts = [
     'she acts like ',
+    'she doesn\'t ',
     'she has ',
     'she finds ',
     'she is just ',
     'she is only ',
     'she loves to ',
     'she lives in ',
+    'she makes ',
     'she should really ',
+    'she totally ',
     'she takes ',
+    'she thinks ',
     'she travels ',
     'she tries to ',
     'she tends to ',
+    'she was ',
+    'she wasn\'t ',
     'she will ',
 ]
 # https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
@@ -61,7 +67,9 @@ fact = 'The %s (%s) %s' % (bird, scientific, re.sub('she ', '', prompt))
 # look through tweets
 for tweet in soup.find_all(class_='tweet-text'):
     text = tweet.text
-    text = text.lower().split(prompt)[-1]
+    # lowercase just the prompt
+    text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
+    text = text.split(prompt)[-1]
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
     if blacklist.check_blacklist(text):
