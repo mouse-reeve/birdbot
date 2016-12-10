@@ -40,6 +40,8 @@ prompts = [
     'she finds ',
     'she is just ',
     'she is only ',
+    'she is prone ',
+    'she keeps ',
     'she loves to ',
     'she lives in ',
     'she makes ',
