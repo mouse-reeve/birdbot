@@ -39,7 +39,6 @@ prompts = [
     'acts like ',
     'doesn\'t ',
     'has ',
-    'finds ',
     'is just ',
     'is only ',
     'is prone ',
@@ -65,7 +64,7 @@ prompt = pronoun + random.choice(prompts)
 api = TwitterAPI(settings.API_KEY, settings.API_SECRET,
                  settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
 # get tweets
-tweets = api.request('search/tweets', {'q': prompt})
+tweets = api.request('search/tweets', {'q': '"%s"' % prompt})
 
 fact = 'The %s (%s) %s' % (bird, scientific, re.sub(pronoun, '', prompt))
 
