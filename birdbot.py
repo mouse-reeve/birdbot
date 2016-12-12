@@ -41,7 +41,6 @@ prompts = [
     'has ',
     'is just ',
     'is only ',
-    'is prone ',
     'keeps ',
     'loves to ',
     'lives in ',
