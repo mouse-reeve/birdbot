@@ -59,23 +59,26 @@ prompts = [
     'will ',
 ]
 
-# https://twitter.com/search?f=tweets&vertical=default&q=%22tends%20to%22&src=typd
 pronoun = random.choice(pronouns)
 prompt = pronoun + random.choice(prompts)
-twitter_url = 'https://twitter.com/search?f=tweets&vertical=default&q="'
-twitter_url += prompt
-twitter_url += '"&src=typd'
-tweets = requests.get(twitter_url)
-soup = BeautifulSoup(tweets.text)
 
-fact = 'The %s (%s) %s' % (bird, scientific, re.sub(pronoun, '', prompt))
+api = TwitterAPI(settings.API_KEY, settings.API_SECRET,
+                 settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
+# get tweets
+tweets = api.request('search/tweets', {'q':'prompt'})
+
+fact = 'The %s (%s) %s' % (bird, scientific, prompt)
 
 # look through tweets
-for tweet in soup.find_all(class_='tweet-text'):
-    text = tweet.text
+for tweet in tweets:
+    if not 'text' in tweet:
+        continue
+    text = tweet['text']
+
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
     text = text.split(prompt)[-1]
+
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
     if blacklist.check_blacklist(text):
@@ -86,8 +89,6 @@ for tweet in soup.find_all(class_='tweet-text'):
         break
 
 # post that bird!
-api = TwitterAPI(settings.API_KEY, settings.API_SECRET,
-                 settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
 image_file = open(outpath, 'rb')
 data = image_file.read()
 r = api.request('statuses/update_with_media',
