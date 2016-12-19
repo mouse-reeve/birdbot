@@ -81,6 +81,7 @@ for tweet in tweets:
     search = re.search(r'\b%s\b.*[\.\?!]' % prompt.strip(), text)
     try:
         text = search.group()
+        text = re.sub(prompt, '', text)
     except AttributeError:
         continue
 
@@ -91,7 +92,7 @@ for tweet in tweets:
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
     if blacklist.check_blacklist(text):
         continue
-    if not re.search(r'["@)\|]|http|\bshe\b|\bher\b|\bhe\b|\bhim\b', text) \
+    if not re.search(r'["@)\|#]|http', text) \
             and len(fact + text) < 140:
         fact += text
         break
