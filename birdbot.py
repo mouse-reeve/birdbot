@@ -77,10 +77,6 @@ for tweet in tweets:
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
 
-    # require that the prompt be the first thing in the sentence
-    if not re.match(r'(^|.*[\.\?\!].)\b%s' % prompt, text):
-        continue
-
     # separate out usable string
     search = re.search(r'\b%s\b.*[\.\?!]' % prompt.strip(), text)
     try:
