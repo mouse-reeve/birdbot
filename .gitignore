@@ -1,0 +1,11 @@
+*.swp
+*.pyc
+.DS_Store
+.Python
+pip-selfcheck.json
+*.sass-cache
+
+# virtualenv
+venv/
+
+images/

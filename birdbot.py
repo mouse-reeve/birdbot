@@ -1,6 +1,7 @@
 ''' let's learn about birds '''
 import blacklist
 from bs4 import BeautifulSoup
+from html import unescape
 import json
 import os
 import random
@@ -8,7 +9,7 @@ import re
 import requests
 import settings
 from TwitterAPI import TwitterAPI
-from urllib import urlretrieve
+from urllib.request import urlretrieve
 
 # pick a bird form the list
 line = json.loads(random.choice(open('birdlist').readlines()))
@@ -76,6 +77,9 @@ for tweet in tweets:
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
     text = text.split(prompt)[-1]
+
+    # avoid &amp;
+    text = unescape(text)
 
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
