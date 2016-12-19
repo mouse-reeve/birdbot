@@ -76,9 +76,19 @@ for tweet in tweets:
 
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
-    text = text.split(prompt)[-1]
 
-    # avoid &amp;
+    # require that the prompt be the first thing in the sentence
+    if not re.match(r'(^|.*[\.\?\!].)\b%s' % prompt, text):
+        continue
+
+    # separate out usable string
+    search = re.search(r'\b%s\b.*[\.\?!]' % prompt.strip(), text)
+    try:
+        text = search.group()
+    except AttributeError:
+        continue
+
+    # avoid &amp; and similar
     text = unescape(text)
 
     # end at end of sentence
