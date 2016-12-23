@@ -380,4 +380,5 @@ blacklist = [
     "cuck",
     "retard",
     "retarded",
+    "clinton",
 ]
