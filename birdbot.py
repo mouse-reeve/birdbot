@@ -20,7 +20,7 @@ bird = line['name'][0].lower() + line['name'][1:]
 entry = requests.get('http://en.wikipedia.org%s' % url)
 soup = BeautifulSoup(entry.text)
 
-scientific = soup.find(class_='binomial').text
+scientific = soup.find(class_='binomial').find('i').text
 
 # find thumbnail
 src = soup.find(class_='image').find('img')['src']
