@@ -11,10 +11,12 @@ import settings
 from TwitterAPI import TwitterAPI
 from urllib.request import urlretrieve
 
+print('--------- creating fact --------')
 # pick a bird form the list
 line = json.loads(random.choice(open('birdlist').readlines()))
 url = line['url']
 bird = line['name'][0].lower() + line['name'][1:]
+print('bird page: %s' % url)
 
 # download the bird's wikipedia entry
 entry = requests.get('http://en.wikipedia.org%s' % url)
@@ -61,6 +63,7 @@ prompts = [
 
 pronoun = random.choice(pronouns)
 prompt = pronoun + random.choice(prompts)
+print('prompt: %s' % prompt)
 
 api = TwitterAPI(settings.API_KEY, settings.API_SECRET,
                  settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
@@ -96,7 +99,11 @@ for tweet in tweets:
     if not re.search(r'["@)\|#]|http', text) \
             and len(fact + text) < 140:
         fact += text
+        print('tweet: twitter.com/%s/status/%d' % \
+                (tweet['user']['screen_name'], tweet['id']))
         break
+
+print('fact: %s' % fact)
 
 # post that bird!
 image_file = open(outpath, 'rb')
