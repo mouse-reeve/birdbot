@@ -101,6 +101,7 @@ for tweet in tweets:
         fact += text
         print('tweet: twitter.com/%s/status/%d' % \
                 (tweet['user']['screen_name'], tweet['id']))
+        print('original text: %s' % tweet['text'])
         break
 
 print('fact: %s' % fact)
