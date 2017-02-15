@@ -111,3 +111,4 @@ image_file = open(outpath, 'rb')
 data = image_file.read()
 r = api.request('statuses/update_with_media',
                 {'status': fact}, {'media[]': data})
+print(r.response)
