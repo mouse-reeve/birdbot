@@ -4,8 +4,10 @@ from bs4 import BeautifulSoup
 from html import unescape
 import json
 import os
+from PIL import Image
 import random
 import re
+from resizeimage import resizeimage
 import requests
 import settings
 from TwitterAPI import TwitterAPI
@@ -35,6 +37,13 @@ image_url = 'https:' + re.sub('thumb/', '', src)
 filename = re.sub(' ', '-', bird.lower()) + '.jpg'
 outpath = os.getcwd() + '/images/%s' % filename
 urlretrieve(image_url, outpath)
+
+# resize if necessary
+while os.path.getsize(outpath) > 5000000:
+    img = Image.open(open(outpath, 'r'))
+    _, height = img.size
+    img = resizeimage.resize_height(img, height / 2)
+    img.save(outpath, img.format)
 
 # search twitter for the fact
 pronouns = ['she ', 'he ']
