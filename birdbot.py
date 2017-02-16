@@ -39,10 +39,10 @@ outpath = os.getcwd() + '/images/%s' % filename
 urlretrieve(image_url, outpath)
 
 # resize if necessary
-while os.path.getsize(outpath) > 5000000:
+while os.path.getsize(outpath) > 3000000:
     img = Image.open(open(outpath, 'r'))
     _, height = img.size
-    img = resizeimage.resize_height(img, height / 2)
+    img = resizeimage.resize_height(img, height / (3/4))
     img.save(outpath, img.format)
 
 # search twitter for the fact
