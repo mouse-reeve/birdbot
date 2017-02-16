@@ -1,6 +1,7 @@
 ''' let's learn about birds '''
 import blacklist
 from bs4 import BeautifulSoup
+from datetime import datetime
 from html import unescape
 import json
 import os
@@ -14,6 +15,7 @@ from TwitterAPI import TwitterAPI
 from urllib.request import urlretrieve
 
 print('--------- creating fact --------')
+print(datetime.today().isoformat())
 # pick a bird form the list
 line = json.loads(random.choice(open('birdlist').readlines()))
 url = line['url']
