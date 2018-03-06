@@ -5,11 +5,14 @@ def check_blacklist(sentence):
     ''' check a sentence for blacklisted content '''
     sentence = sentence.lower()
     sentence = re.sub(r'[\.,;\'"\(\)\?!]', '', sentence)
-    for word in sentence.split(' '):
-        if word in blacklist:
+    for word in blacklist:
+        if word in sentence:
             return True
     return False
 
+# ---------------------------------------
+# Abandon all hope, ye who read past here
+# ---------------------------------------
 
 blacklist = [
     "2g1c",
