@@ -94,21 +94,24 @@ for tweet in tweets:
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
 
+    # put loose "sentences" on separate lines
+    text = re.sub(r'([\.\?!\n\r]+)', r'\g<1>\n', text)
     # separate out usable string
-    search = re.search(r'\b%s\b.*[\.\?!]' % prompt.strip(), text)
+    search = re.findall(
+        r'^.*(%s(?!.*(?:\bhim\b|\bher\b|\bme\b|@|http|…)).{10,200})' % prompt,
+        text, re.M)
     try:
-        text = search.group()
+        text = search[0]
         text = re.sub(prompt, '', text)
-    except AttributeError:
+    except IndexError:
         continue
-
-    # avoid &amp; and similar
-    text = unescape(text)
 
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
-    if not re.search(r'["@)\|#]|http', text) \
-            and len(fact + text) < 140:
+    if len(fact + text) < 140 and len(text) > 5:
+        # avoid &amp; and similar
+        text = unescape(text)
+
         fact += text
         print('tweet: twitter.com/%s/status/%d' % \
                 (tweet['user']['screen_name'], tweet['id']))
