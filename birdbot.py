@@ -108,7 +108,7 @@ for tweet in tweets:
 
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
-    if len(fact + text) < 140 and len(text) > 5:
+    if len(fact + text) < 280 and len(text) > 5:
         # avoid &amp; and similar
         text = unescape(text)
 
