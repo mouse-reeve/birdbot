@@ -88,6 +88,8 @@ for tweet in tweets:
     if not 'text' in tweet:
         continue
     text = tweet['text']
+    if blacklist.check_blacklist(text):
+        continue
 
     # lowercase just the prompt
     text = re.sub(prompt, prompt, text, flags=re.IGNORECASE)
@@ -105,8 +107,6 @@ for tweet in tweets:
 
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
-    if blacklist.check_blacklist(text):
-        continue
     if not re.search(r'["@)\|#]|http', text) \
             and len(fact + text) < 140:
         fact += text
