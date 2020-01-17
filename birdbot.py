@@ -98,7 +98,7 @@ for tweet in tweets:
     text = re.sub(r'([\.\?!\n\r]+)', r'\g<1>\n', text)
     # separate out usable string
     search = re.findall(
-        r'^.*(%s(?!.*(?:\bhim\b|\bher\b|\bme\b|@|http|…)).{10,200})' % prompt,
+        r'^.*(%s(?!.*(?:\bhim\b|\bher\b|\bthem\b|\bme\b|@|http|…)).{10,200})' % prompt,
         text, re.M)
     try:
         text = search[0]
