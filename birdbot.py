@@ -109,10 +109,11 @@ for tweet in tweets:
     # end at end of sentence
     text = re.sub(r'([\.?!\n\r]).*$', r'\g<1>', text)
     if len(fact + text) < 280 and len(text) > 5:
-        # avoid &amp; and similar
-        text = unescape(text)
 
         fact += text
+        # avoid &amp; and similar
+        fact = unescape(fact)
+
         print('tweet: twitter.com/%s/status/%d' % \
                 (tweet['user']['screen_name'], tweet['id']))
         print('original text: %s' % tweet['text'])
