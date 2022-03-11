@@ -1,5 +1,5 @@
 beautifulsoup4==4.3.2
-Pillow==9.0.0
+Pillow==9.0.1
 python-resize-image==1.1.19
 requests==2.22.0
 TwitterAPI==2.4.2
